@@ -11,7 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 public class HtmlLoader {
@@ -29,7 +29,7 @@ public class HtmlLoader {
                                            @Nullable final Map<String, String> substitutionTable) {
 
         try (final BufferedReader fileReader =
-                     new BufferedReader(new InputStreamReader(context.getResources().openRawResource(resourceID), StandardCharsets.UTF_8))) {
+                     new BufferedReader(new InputStreamReader(context.getResources().openRawResource(resourceID), Charset.forName("UTF-8")))) {
 
             final StringBuilder outputBuffer = new StringBuilder();
 

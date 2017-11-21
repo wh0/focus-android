@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -236,7 +236,7 @@ public class SearchEngineManager extends BroadcastReceiver {
         final Set<String> engines = prefs.getStringSet(PREF_KEY_CUSTOM_SEARCH_ENGINES, Collections.<String>emptySet());
         try {
             for (String engine : engines) {
-                final InputStream engineInputStream = new ByteArrayInputStream(prefs.getString(engine, "").getBytes(StandardCharsets.UTF_8));
+                final InputStream engineInputStream = new ByteArrayInputStream(prefs.getString(engine, "").getBytes(Charset.forName("UTF-8")));
                 searchEngines.add(SearchEngineParser.load(engine, engineInputStream));
             }
         } catch (IOException e) {

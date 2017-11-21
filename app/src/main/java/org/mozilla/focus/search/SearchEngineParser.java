@@ -18,7 +18,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 
 /**
  * A very simple parser for search plugins.
@@ -43,7 +43,7 @@ import java.nio.charset.StandardCharsets;
         final SearchEngine searchEngine = new SearchEngine(identifier);
 
         XmlPullParser parser = XmlPullParserFactory.newInstance().newPullParser();
-        parser.setInput(new InputStreamReader(stream, StandardCharsets.UTF_8));
+        parser.setInput(new InputStreamReader(stream, Charset.forName("UTF-8")));
         parser.next();
 
         readSearchPlugin(parser, searchEngine);

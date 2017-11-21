@@ -20,7 +20,7 @@ import org.mozilla.focus.webview.matcher.util.FocusString;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -73,7 +73,7 @@ public class UrlMatcher implements  SharedPreferences.OnSharedPreferenceChangeLi
 
         final Map<String, Trie> categoryMap = new HashMap<>(5);
         try (final JsonReader jsonReader =
-                     new JsonReader(new InputStreamReader(context.getResources().openRawResource(blockListFile), StandardCharsets.UTF_8))) {
+                     new JsonReader(new InputStreamReader(context.getResources().openRawResource(blockListFile), Charset.forName("UTF-8")))) {
             BlocklistProcessor.loadCategoryMap(jsonReader, categoryMap, BlocklistProcessor.ListType.BASE_LIST);
         } catch (IOException e) {
             throw new IllegalStateException("Unable to parse blacklist");
@@ -82,7 +82,7 @@ public class UrlMatcher implements  SharedPreferences.OnSharedPreferenceChangeLi
         if (blockListOverrides != null) {
             for (int i = 0; i < blockListOverrides.length; i++) {
                 try (final JsonReader jsonReader =
-                             new JsonReader(new InputStreamReader(context.getResources().openRawResource(blockListOverrides[i]), StandardCharsets.UTF_8))) {
+                             new JsonReader(new InputStreamReader(context.getResources().openRawResource(blockListOverrides[i]), Charset.forName("UTF-8")))) {
                     BlocklistProcessor.loadCategoryMap(jsonReader, categoryMap, BlocklistProcessor.ListType.OVERRIDE_LIST);
                 } catch (IOException e) {
                     throw new IllegalStateException("Unable to parse override blacklist");
@@ -91,7 +91,7 @@ public class UrlMatcher implements  SharedPreferences.OnSharedPreferenceChangeLi
         }
 
         final EntityList entityList;
-        try (final JsonReader jsonReader = new JsonReader(new InputStreamReader(context.getResources().openRawResource(entityListFile), StandardCharsets.UTF_8))) {
+        try (final JsonReader jsonReader = new JsonReader(new InputStreamReader(context.getResources().openRawResource(entityListFile), Charset.forName("UTF-8")))) {
             entityList = EntityListProcessor.getEntityMapFromJSON(jsonReader);
         } catch (IOException e) {
             throw new IllegalStateException("Unable to parse entity list");
