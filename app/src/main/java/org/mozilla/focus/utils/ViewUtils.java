@@ -7,6 +7,7 @@ package org.mozilla.focus.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.StringRes;
@@ -70,7 +71,19 @@ public class ViewUtils {
                 return;
             }
 
-            final Activity activity = (Activity) view.getContext();
+            final Activity activity;
+            Context context = view.getContext();
+            while (true) {
+                if (context instanceof Activity) {
+                    activity = (Activity) context;
+                    break;
+                } else if (context instanceof ContextWrapper) {
+                    context = ((ContextWrapper) context).getBaseContext();
+                } else {
+                    activity = null;
+                    break;
+                }
+            }
             if (activity == null) {
                 return;
             }
