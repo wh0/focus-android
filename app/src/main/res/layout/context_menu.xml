@@ -27,6 +27,8 @@
         android:fontFamily="@string/font_roboto_regular"
         android:paddingStart="@dimen/dialogHorizontalPadding"
         android:paddingEnd="@dimen/dialogHorizontalPadding"
+        android:paddingLeft="@dimen/dialogHorizontalPadding"
+        android:paddingRight="@dimen/dialogHorizontalPadding"
         android:paddingTop="16dp"
         android:paddingBottom="16dp" />
 

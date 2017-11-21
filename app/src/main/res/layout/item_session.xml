@@ -9,6 +9,8 @@
     android:gravity="start|center_vertical"
     android:paddingEnd="16dp"
     android:paddingStart="16dp"
+    android:paddingRight="16dp"
+    android:paddingLeft="16dp"
     tools:text="www.mozilla.org/en-US/firefox/"
     android:lines="1"
     android:ellipsize="end"
