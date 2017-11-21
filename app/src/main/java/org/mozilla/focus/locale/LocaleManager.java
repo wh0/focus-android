@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -237,7 +238,9 @@ public class LocaleManager {
         // on real devices.
         config.locale = locale;
 
-        config.setLayoutDirection(locale);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            config.setLayoutDirection(locale);
+        }
 
         res.updateConfiguration(config, null);
     }

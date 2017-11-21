@@ -38,10 +38,12 @@ public class FirstrunFragment extends Fragment implements View.OnClickListener {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        final Transition transition = TransitionInflater.from(context).
-                inflateTransition(R.transition.firstrun_exit);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            final Transition transition = TransitionInflater.from(context).
+                    inflateTransition(R.transition.firstrun_exit);
 
-        setExitTransition(transition);
+            setExitTransition(transition);
+        }
 
         // We will send a telemetry event whenever a new firstrun page is shown. However this page
         // listener won't fire for the initial page we are showing. So we are going to firing here.

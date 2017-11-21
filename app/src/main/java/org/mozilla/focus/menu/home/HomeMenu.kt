@@ -7,6 +7,7 @@ package org.mozilla.focus.menu.home
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -38,7 +39,9 @@ class HomeMenu(
         height = ViewGroup.LayoutParams.WRAP_CONTENT
         width = ViewGroup.LayoutParams.WRAP_CONTENT
 
-        elevation = context.resources.getDimension(R.dimen.menu_elevation)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            elevation = context.resources.getDimension(R.dimen.menu_elevation)
+        }
     }
 
     fun show(anchor: View) {
