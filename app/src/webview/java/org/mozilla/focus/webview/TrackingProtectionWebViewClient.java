@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -113,6 +114,50 @@ public class TrackingProtectionWebViewClient extends WebViewClient {
         }
 
         return super.shouldInterceptRequest(view, request);
+    }
+
+    @Nullable
+    @Override
+    public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+        if (!blockingEnabled) {
+            return super.shouldInterceptRequest(view, url);
+        }
+
+        final Uri resourceUri = Uri.parse(url);
+
+        // shouldInterceptRequest() might be called _before_ onPageStarted or shouldOverrideUrlLoading
+        // are called (this happens when the webview is first shown). However we are notified of the URL
+        // via notifyCurrentURL in that case.
+        final String scheme = resourceUri.getScheme();
+
+        if (!scheme.equals("http") && !scheme.equals("https")) {
+            // Block any malformed non-http(s) URIs. WebView will already ignore things like market: URLs,
+            // but not in all cases (malformed market: URIs, such as market:://... will still end up here).
+            // (Note: data: URIs are automatically handled by WebView, and won't end up here either.)
+            // file:// URIs are disabled separately by setting WebSettings.setAllowFileAccess()
+            return new WebResourceResponse(null, null, null);
+        }
+
+        // WebView always requests a favicon, even though it won't be used anywhere. This check
+        // isn't able to block all favicons (some of them will be loaded using <link rel="shortcut icon">
+        // with a custom URL which we can't match or detect), but reduces the amount of unnecessary
+        // favicon loading that's performed.
+        final String path = resourceUri.getPath();
+        if (path != null && path.endsWith("/favicon.ico")) {
+            return new WebResourceResponse(null, null, null);
+        }
+
+        final UrlMatcher matcher = getMatcher(view.getContext());
+
+        final Uri pageUri = Uri.parse(currentPageURL);
+        if (matcher.matches(resourceUri, pageUri)) {
+            if (callback != null) {
+                callback.countBlockedTracker();
+            }
+            return new WebResourceResponse(null, null, null);
+        }
+
+        return super.shouldInterceptRequest(view, url);
     }
 
     /**
