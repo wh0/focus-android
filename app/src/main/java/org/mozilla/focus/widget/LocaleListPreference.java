@@ -83,7 +83,12 @@ public class LocaleListPreference extends ListPreference {
         }
 
         private static byte[] getPixels(final Bitmap b) {
-            final int byteCount = b.getAllocationByteCount();
+            final int byteCount;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                byteCount = b.getAllocationByteCount();
+            } else {
+                byteCount = b.getByteCount();
+            }
 
             final ByteBuffer buffer = ByteBuffer.allocate(byteCount);
             try {
