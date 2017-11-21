@@ -22,7 +22,7 @@ android {
         versionName "2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        multiDexEnabled true
+        multiDexEnabled false
     }
 
     dexOptions {
