@@ -52,7 +52,7 @@
                 android:padding="4dp"
                 android:src="@drawable/ic_info"
                 android:contentDescription="@string/menu_help"
-                android:background="?android:attr/selectableItemBackgroundBorderless" />
+                android:background="?attr/selectableItemBackgroundBorderless" />
 
         </LinearLayout>
 
