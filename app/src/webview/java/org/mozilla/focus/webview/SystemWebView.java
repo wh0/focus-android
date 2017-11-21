@@ -8,6 +8,7 @@ package org.mozilla.focus.webview;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -57,7 +58,9 @@ public class SystemWebView extends NestedWebView implements IWebView, SharedPref
         setDownloadListener(createDownloadListener());
 
         if (BuildConfig.DEBUG) {
-            setWebContentsDebuggingEnabled(true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                setWebContentsDebuggingEnabled(true);
+            }
         }
 
         setLongClickable(true);
