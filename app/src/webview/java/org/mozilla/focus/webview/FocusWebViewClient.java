@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslCertificate;
 import android.net.http.SslError;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.webkit.SslErrorHandler;
@@ -77,28 +78,30 @@ import org.mozilla.focus.web.IWebView;
 
     @Override
     public void onLoadResource(WebView view, String url) {
-        // We can't access the webview during shouldInterceptRequest(), however onLoadResource()
-        // is called on the UI thread so we're allowed to do this now:
-        view.evaluateJavascript(
-                "(function() {" +
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // We can't access the webview during shouldInterceptRequest(), however onLoadResource()
+            // is called on the UI thread so we're allowed to do this now:
+            view.evaluateJavascript(
+                    "(function() {" +
 
-                "function cleanupVisited() {" +
-                CLEAR_VISITED_CSS +
-                "}" +
+                    "function cleanupVisited() {" +
+                    CLEAR_VISITED_CSS +
+                    "}" +
 
-                // Add an onLoad() listener so that we run the cleanup script every time
-                // a <link>'d css stylesheet is loaded:
-                "var links = document.getElementsByTagName('link');" +
-                "for (i = 0; i < links.length; i++) {" +
-                "  link = links[i];" +
-                "  if (link.rel == 'stylesheet') {" +
-                "    link.addEventListener('load', cleanupVisited, false);" +
-                "  }" +
-                "}" +
+                    // Add an onLoad() listener so that we run the cleanup script every time
+                    // a <link>'d css stylesheet is loaded:
+                    "var links = document.getElementsByTagName('link');" +
+                    "for (i = 0; i < links.length; i++) {" +
+                    "  link = links[i];" +
+                    "  if (link.rel == 'stylesheet') {" +
+                    "    link.addEventListener('load', cleanupVisited, false);" +
+                    "  }" +
+                    "}" +
 
-                "})();",
+                    "})();",
 
-                null);
+                    null);
+        }
 
         super.onLoadResource(view, url);
     }
@@ -203,14 +206,16 @@ import org.mozilla.focus.web.IWebView;
         }
         super.onPageFinished(view, url);
 
-        view.evaluateJavascript(
-                "(function() {" +
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            view.evaluateJavascript(
+                    "(function() {" +
 
-                CLEAR_VISITED_CSS +
+                    CLEAR_VISITED_CSS +
 
-                "})();",
+                    "})();",
 
-                null);
+                    null);
+        }
     }
 
     @Override
