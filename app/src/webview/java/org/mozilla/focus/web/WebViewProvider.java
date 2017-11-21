@@ -90,9 +90,14 @@ public class WebViewProvider {
         // To respect the html viewport:
         settings.setLoadWithOverviewMode(true);
 
-        // Also increase text size to fill the viewport (this mirrors the behaviour of Firefox,
-        // Chrome does this in the current Chrome Dev, but not Chrome release).
-        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // Also increase text size to fill the viewport (this mirrors the behaviour of Firefox,
+            // Chrome does this in the current Chrome Dev, but not Chrome release).
+            settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+        } else {
+            settings.setUseWideViewPort(true);
+            settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        }
 
         // Disable access to arbitrary local files by webpages - assets can still be loaded
         // via file:///android_asset/res, so at least error page images won't be blocked.
