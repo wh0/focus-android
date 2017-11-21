@@ -40,6 +40,13 @@
 
     </org.mozilla.focus.widget.ResizableKeyboardLinearLayout>
 
+    <View
+        android:id="@+id/dismissView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorOverlay"
+        android:contentDescription="@string/content_description_dismiss_input" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="81dp"
@@ -124,13 +131,6 @@
         </FrameLayout>
 
     </FrameLayout>
-
-    <View
-        android:id="@+id/dismissView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorOverlay"
-        android:contentDescription="@string/content_description_dismiss_input" />
 
     <FrameLayout
         android:id="@+id/searchViewContainer"
