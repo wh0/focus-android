@@ -193,7 +193,11 @@ public class SystemWebView extends NestedWebView implements IWebView, SharedPref
         clearCache(true);
 
         // We don't care about the callback - we just want to make sure cookies are gone
-        CookieManager.getInstance().removeAllCookies(null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CookieManager.getInstance().removeAllCookies(null);
+        } else {
+            CookieManager.getInstance().removeAllCookie();
+        }
 
         WebStorage.getInstance().deleteAllData();
 
